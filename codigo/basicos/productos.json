@@ -1,0 +1,5 @@
+﻿[
+  { "nombre": "Monitor", "precio": 120.5, "categoria": "pc" },
+  { "nombre": "Teclado", "precio": 25, "categoria": "perifericos" },
+  { "nombre": "Ratón", "precio": 15, "categoria": "perifericos" }
+]

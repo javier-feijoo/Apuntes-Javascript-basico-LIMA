@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variables y Condicionales</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    pre { background: #f4f4f4; padding: 12px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Variables, tipos y condicionales</h1>
+  <p>Abre la consola para ver la salida (F12 en el navegador).</p>
+  <pre id="salida"></pre>
+
+  <script>
+    // Declaración
+    const nombre = "Javier";
+    let edad = 20;
+    const notas = [7, 8.5, 9];
+
+    // Template literal
+    const presentacion = `Hola, soy ${nombre} y tengo ${edad} años.`;
+
+    // Condicional
+    let estado = "Suspendido";
+    if (edad >= 18) {
+      estado = "Mayor de edad";
+    }
+
+    // Bucle for
+    let acumulado = 0;
+    for (let i = 0; i < notas.length; i++) {
+      acumulado += notas[i];
+    }
+    const media = (acumulado / notas.length).toFixed(2);
+
+    // Salida
+    const mensajes = [presentacion, `Estado: ${estado}`, `Notas: ${notas.join(", ")}`, `Media: ${media}`];
+    const salida = document.getElementById("salida");
+    salida.textContent = mensajes.join("\n");
+
+    // También a consola
+    mensajes.forEach(m => console.log(m));
+  </script>
+</body>
+</html>

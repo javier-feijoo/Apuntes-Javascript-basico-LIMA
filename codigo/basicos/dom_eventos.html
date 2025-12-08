@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOM y Eventos</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    button { margin-right: 8px; }
+    .caja { padding: 10px; margin: 8px 0; background: #eef; border: 1px solid #ccd; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>DOM: selección, creación y eventos</h1>
+
+  <button id="cambiar">Cambiar texto</button>
+  <button id="crear">Crear tarjeta</button>
+
+  <p id="mensaje">Texto inicial</p>
+  <section id="zona"></section>
+
+  <script>
+    const mensaje = document.getElementById("mensaje");
+    const zona = document.getElementById("zona");
+    let contador = 1;
+
+    document.getElementById("cambiar").addEventListener("click", () => {
+      mensaje.textContent = "Texto cambiado dinámicamente";
+      mensaje.classList.toggle("caja");
+    });
+
+    document.getElementById("crear").addEventListener("click", () => {
+      const div = document.createElement("article");
+      div.className = "caja";
+      div.textContent = `Tarjeta nº ${contador++}`;
+      zona.appendChild(div);
+    });
+  </script>
+</body>
+</html>

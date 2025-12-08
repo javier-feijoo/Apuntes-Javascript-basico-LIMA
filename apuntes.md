@@ -501,18 +501,6 @@ Ideal para practicar:
 
 ---
 
-# Conclusión del apartado
-
-El DOM es la base de toda web interactiva. Dominar:
-
-- selección de elementos,
-- modificación de contenido,
-- creación/eliminación de nodos,
-- clases CSS,
-- eventos, permite construir interfaces complejas sin necesidad de frameworks.
-
-A partir de aquí, el siguiente paso natural es **usar datos dinámicos**, primero desde archivos JSON locales y después desde APIs.
-
 # 4. JSON y Fetch: Datos dinámicos en la Web
 
 El uso de **JSON (JavaScript Object Notation)** y la función **fetch()** es fundamental en las aplicaciones modernas. Permiten cargar y procesar datos externos, ya provengan de un archivo local o de una **API REST**, generando interfaces dinámicas.
@@ -731,14 +719,3 @@ La aplicación debe:
 Al pulsar un filtro, debe **re-renderizar** solo los elementos que coincidan.
 
 ---
-
-# 4.10 Conclusión
-Gracias a JSON y fetch:
-- se pueden crear interfaces dinámicas,
-- consumir APIs sin backend propio,
-- integrar datos estructurados,
-- construir aplicaciones web modernas.
-
-El siguiente paso natural es combinar todo esto con **eventos, DOM y estilos avanzados**, creando proyectos completos.
-
-

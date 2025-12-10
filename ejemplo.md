@@ -9,7 +9,7 @@ Este ejemplo muestra cómo consumir la API de **The Movie Database (TMDB)** usan
 
 Solo es necesario introducir tu propia **API Key de TMDB**.
 
----
+
 
 # 1. Código HTML
 
@@ -78,7 +78,7 @@ Solo es necesario introducir tu propia **API Key de TMDB**.
 </html>
 ```
 
----
+
 
 # 2. Código JavaScript (app.js)
 
@@ -167,7 +167,7 @@ selectCategorias.addEventListener("change", () => {
 cargarCategorias();
 ```
 
----
+
 
 # 3. Explicación del funcionamiento
 
@@ -194,7 +194,6 @@ Cada película incluye:
 
 El script construye tarjetas con esa información.
 
----
 
 # 4. Retos sugeridos
 
@@ -205,8 +204,4 @@ El script construye tarjetas con esa información.
 ```
 /search/movie?query=
 ```
-
----
-
-# Fin del ejemplo TMDB
 

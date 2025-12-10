@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memes desde API</title>
+  <link rel="stylesheet" href="./estilos.css">
+</head>
+
+<body>
+  <!-- Ejemplo basico de uso de la API de imgflip para obtener memes -->
+  <main>
+    <h1>Memes (API imgflip)</h1>
+    <p class="descripcion">Ejemplo basico: al pulsar el boton pedimos los memes a
+      <code>https://api.imgflip.com/get_memes</code> y los mostramos.</p>
+    <div class="toolbar">
+      <button id="btn-cargar">Cargar memes</button>
+      <span id="estado"></span>
+    </div>
+    <section id="memes" class="grid" aria-live="polite"></section>
+  </main>
+
+  <script>
+    // Referencias a elementos
+    const estado = document.getElementById("estado");
+    const lista = document.getElementById("memes");
+    const boton = document.getElementById("btn-cargar");
+
+    // Al hacer clic pedimos los memes
+    boton.addEventListener("click", cargarMemes);
+
+    // Hace la peticion a imgflip y luego pinta la lista
+    async function cargarMemes() {
+      estado.textContent = "Cargando...";
+      boton.disabled = true;
+      try {
+        const res = await fetch("https://api.imgflip.com/get_memes");
+        if (!res.ok) throw new Error("No se pudo cargar la API");
+
+        const data = await res.json();
+        // La API devuelve { success: true, data: { memes: [...] } }
+        const memes = data?.data?.memes;
+        if (!Array.isArray(memes)) throw new Error("Respuesta sin lista de memes");
+        // Pintamos los memes
+        pintar(memes);
+        estado.textContent = `Listo: ${memes.length} memes`;
+      } catch (err) {
+        estado.textContent = "Error: " + err.message;
+      } finally {
+        boton.disabled = false;
+      }
+    }
+
+    // Renderiza las tarjetas de memes en el contenedor
+    function pintar(memes) {
+      if (!memes.length) {
+        lista.innerHTML = "";
+        estado.textContent = "No llegaron memes";
+        return;
+      }
+
+      lista.innerHTML = memes.map(m => `
+        <article class="card">
+          <div class="thumb">
+            <img src="${m.url}" alt="${m.name}">
+          </div>
+          <div class="info">
+            <h3>${m.name}</h3>
+            <p class="muted">${m.width} x ${m.height} px</p>
+          </div>
+        </article>
+      `).join("");
+    }
+  </script>
+</body>
+
+</html>

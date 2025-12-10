@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -15,7 +15,7 @@
   <pre id="salida"></pre>
 
   <script>
-    // Declaración
+    // Declaración de variables y array
     const nombre = "Javier";
     let edad = 20;
     const notas = [7, 8.5, 9];
@@ -23,25 +23,24 @@
     // Template literal
     const presentacion = `Hola, soy ${nombre} y tengo ${edad} años.`;
 
-    // Condicional
+    // Condicional simple
     let estado = "Suspendido";
     if (edad >= 18) {
       estado = "Mayor de edad";
     }
 
-    // Bucle for
+    // Bucle for para sumar notas
     let acumulado = 0;
     for (let i = 0; i < notas.length; i++) {
       acumulado += notas[i];
     }
     const media = (acumulado / notas.length).toFixed(2);
 
-    // Salida
+    // Salida en DOM y consola
     const mensajes = [presentacion, `Estado: ${estado}`, `Notas: ${notas.join(", ")}`, `Media: ${media}`];
     const salida = document.getElementById("salida");
     salida.textContent = mensajes.join("\n");
 
-    // También a consola
     mensajes.forEach(m => console.log(m));
   </script>
 </body>

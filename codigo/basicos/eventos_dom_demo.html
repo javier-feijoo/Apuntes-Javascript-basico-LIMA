@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eventos DOM básicos</title>
+  <style>
+    :root {
+      --azul: #2563eb;
+      --gris: #6b7280;
+      --verde: #16a34a;
+      --rojo: #dc2626;
+      --bg: #f8fafc;
+    }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: #111827;
+      display: grid;
+      gap: 18px;
+      max-width: 1000px;
+      margin-inline: auto;
+    }
+    h1 { margin: 0 0 8px; }
+    section {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .botones { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+    button {
+      background: var(--azul);
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .caja {
+      width: 150px; height: 150px;
+      border-radius: 12px;
+      background: #e5e7eb;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: var(--gris);
+      transition: transform 150ms ease, background 150ms ease;
+      user-select: none;
+    }
+    .caja.activa { background: #dbeafe; color: var(--azul); transform: scale(1.06); }
+    .video { width: 100%; max-width: 360px; border-radius: 12px; overflow: hidden; border: 1px solid #e5e7eb; }
+    form { display: grid; gap: 10px; max-width: 320px; }
+    input, textarea {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 1rem;
+    }
+    .msg { font-size: 0.95rem; color: var(--gris); min-height: 20px; }
+    .ok { color: var(--verde); }
+    .error { color: var(--rojo); }
+  </style>
+</head>
+<body>
+  <h1>Eventos DOM básicos</h1>
+
+  <section aria-labelledby="sec-caja">
+    <h2 id="sec-caja">Click y doble click</h2>
+    <p>Haz click para alternar la caja. Doble click la restaura.</p>
+    <div class="caja" id="caja">Caja</div>
+    <div class="botones">
+      <button id="btn-reset">Reset</button>
+    </div>
+  </section>
+
+  <section aria-labelledby="sec-video">
+    <h2 id="sec-video">Control multimedia</h2>
+    <p>Reproducir/Pausar un video embebido via JavaScript.</p>
+    <video class="video" id="video" src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></video>
+    <div class="botones">
+      <button id="btn-play">Play</button>
+      <button id="btn-pause">Pause</button>
+      <button id="btn-mute">Mute/Unmute</button>
+    </div>
+  </section>
+
+  <section aria-labelledby="sec-form">
+    <h2 id="sec-form">Validar formulario</h2>
+    <p>Ejemplo mínimo: validar nombre y correo antes de enviar.</p>
+    <form id="form">
+      <input type="text" id="nombre" name="nombre" placeholder="Nombre (min 3)" required>
+      <input type="email" id="email" name="email" placeholder="Email" required>
+      <button type="submit">Enviar</button>
+      <div id="form-estado" class="msg"></div>
+    </form>
+  </section>
+
+  <script>
+    // Click y doble click
+    const caja = document.getElementById("caja");
+    const btnReset = document.getElementById("btn-reset");
+    caja.addEventListener("click", () => caja.classList.toggle("activa"));
+    caja.addEventListener("dblclick", () => caja.classList.remove("activa"));
+    btnReset.addEventListener("click", () => caja.classList.remove("activa"));
+
+    // Control multimedia
+    const video = document.getElementById("video");
+    document.getElementById("btn-play").addEventListener("click", () => video.play());
+    document.getElementById("btn-pause").addEventListener("click", () => video.pause());
+    document.getElementById("btn-mute").addEventListener("click", () => video.muted = !video.muted);
+
+    // Validacion de formulario
+    const form = document.getElementById("form");
+    const estado = document.getElementById("form-estado");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nombre = form.nombre.value.trim();
+      const email = form.email.value.trim();
+
+      if (nombre.length < 3) {
+        estado.textContent = "El nombre debe tener al menos 3 caracteres.";
+        estado.className = "msg error";
+        return;
+      }
+      if (!email.includes("@") || !email.includes(".")) {
+        estado.textContent = "Introduce un email valido.";
+        estado.className = "msg error";
+        return;
+      }
+      estado.textContent = "Enviado correctamente (demo sin backend).";
+      estado.className = "msg ok";
+      form.reset();
+    });
+  </script>
+</body>
+</html>

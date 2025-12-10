@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memes - Elegir uno</title>
+  <link rel="stylesheet" href="./estilos.css">
+</head>
+<body>
+  <main>
+    <h1>Meme por numero</h1>
+    <p class="descripcion">Escribe un numero (1-100), pulsa cargar y mostraremos ese meme de la API.</p>
+    <div class="toolbar">
+      <label for="posicion">Posicion:</label>
+      <input id="posicion" type="number" min="1" max="100" value="1" style="width:90px;padding:8px;border-radius:8px;border:1px solid #d1d5db;">
+      <button id="btn-cargar">Cargar meme</button>
+      <span id="estado"></span>
+    </div>
+    <section id="memes" class="grid" aria-live="polite"></section>
+  </main>
+
+  <script>
+    // Referencias a los nodos del DOM
+    const estado = document.getElementById("estado");
+    const lista = document.getElementById("memes");
+    const boton = document.getElementById("btn-cargar");
+    const input = document.getElementById("posicion");
+
+    // Evento: al click pedimos la lista y mostramos solo el meme elegido
+    boton.addEventListener("click", cargarMeme);
+
+    async function cargarMeme() {
+      const n = Number(input.value);
+      if (!Number.isInteger(n) || n < 1 || n > 100) {
+        estado.textContent = "Elige un numero entre 1 y 100";
+        return;
+      }
+
+      estado.textContent = "Cargando...";
+      boton.disabled = true;
+      try {
+        const res = await fetch("https://api.imgflip.com/get_memes");
+        if (!res.ok) throw new Error("No se pudo cargar la API");
+
+        const data = await res.json();
+        const memes = data?.data?.memes;
+        if (!Array.isArray(memes)) throw new Error("Respuesta sin lista de memes");
+
+        // Tomamos la posicion solicitada (ajustando si hay menos memes)
+        const idx = Math.min(n - 1, memes.length - 1);
+        const meme = memes[idx];
+        pintar([meme]);
+        estado.textContent = `Mostrando el meme ${n} de ${memes.length}`;
+      } catch (err) {
+        estado.textContent = "Error: " + err.message;
+      } finally {
+        boton.disabled = false;
+      }
+    }
+
+    // Genera el HTML de la tarjeta (o tarjetas) de memes
+    function pintar(memes) {
+      if (!memes.length) {
+        lista.innerHTML = "";
+        estado.textContent = "No se recibieron memes";
+        return;
+      }
+
+      lista.innerHTML = memes.map(m => `
+        <article class="card">
+          <div class="thumb">
+            <img src="${m.url}" alt="${m.name}">
+          </div>
+          <div class="info">
+            <h3>${m.name}</h3>
+            <p class="muted">${m.width} x ${m.height} px</p>
+          </div>
+        </article>
+      `).join("");
+    }
+  </script>
+</body>
+</html>

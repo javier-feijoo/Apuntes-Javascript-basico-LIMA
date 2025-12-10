@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -20,6 +20,7 @@
     const estado = document.getElementById("estado");
     const contenedor = document.getElementById("productos");
 
+    // Cargar el archivo productos.json del mismo directorio
     async function cargarProductos() {
       estado.textContent = "Cargando...";
       try {
@@ -34,6 +35,7 @@
       }
     }
 
+    // Crear las tarjetas a partir de la lista
     function pintar(lista) {
       contenedor.innerHTML = lista.map(p => `
         <article class="card">

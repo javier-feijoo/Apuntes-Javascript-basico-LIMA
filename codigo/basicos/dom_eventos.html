@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -25,14 +25,16 @@
     let contador = 1;
 
     document.getElementById("cambiar").addEventListener("click", () => {
+      // Cambia el texto y alterna la clase de estilo en cada click
       mensaje.textContent = "Texto cambiado dinámicamente";
       mensaje.classList.toggle("caja");
     });
 
     document.getElementById("crear").addEventListener("click", () => {
+      // Crea un elemento nuevo y lo agrega al final de la sección
       const div = document.createElement("article");
       div.className = "caja";
-      div.textContent = `Tarjeta nº ${contador++}`;
+      div.textContent = `Tarjeta n° ${contador++}`;
       zona.appendChild(div);
     });
   </script>

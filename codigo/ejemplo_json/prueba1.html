@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prueba 1 - Viajes desde JSON local</title>
+  <link rel="stylesheet" href="./estilos.css">
+</head>
+<body>
+  <main>
+    <h1>Viajes (JSON local)</h1>
+    <div class="toolbar">
+      <button id="btn-cargar">Cargar viajes</button>
+      <span id="estado"></span>
+    </div>
+    <section id="viajes" class="cards" aria-live="polite"></section>
+  </main>
+
+  <!-- Seccion de javascript -->
+  <script>
+    const estado = document.getElementById("estado");
+    const contenedor = document.getElementById("viajes");
+    const boton = document.getElementById("btn-cargar");
+
+    // Evento: al pulsar se hace fetch al JSON local
+    boton.addEventListener("click", cargarViajes);
+
+    // Carga el archivo JSON y delega el pintado
+    async function cargarViajes() {
+      estado.textContent = "Cargando...";
+      boton.disabled = true;
+      try {
+        const res = await fetch("./viajes.json");
+        if (!res.ok) throw new Error("No se pudo cargar el JSON");
+
+        const viajes = await res.json();
+        pintar(viajes);
+        estado.textContent = `Listo: ${viajes.length} viajes`;
+      } catch (err) {
+        estado.textContent = "Error: " + err.message;
+      } finally {
+        boton.disabled = false;
+      }
+    }
+
+    // Genera las tarjetas a partir de la lista de viajes
+    function pintar(lista) {
+      if (!Array.isArray(lista) || lista.length === 0) {
+        estado.textContent = "No hay viajes disponibles";
+        contenedor.innerHTML = "";
+        return;
+      }
+
+      contenedor.innerHTML = lista.map(v => `
+        <article class="card">
+          <div class="thumb">
+            <img src="${v.imagen}" alt="${v.titulo}">
+          </div>
+          <div class="info">
+            <h3>${v.titulo}</h3>
+            <p>${v.descripcion}</p>
+            <p class="precio">${Number(v.precio).toFixed(2)} EUR</p>
+          </div>
+        </article>
+      `).join("");
+    }
+  </script>
+</body>
+</html>

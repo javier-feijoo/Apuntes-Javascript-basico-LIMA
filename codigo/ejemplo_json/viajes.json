@@ -1,0 +1,30 @@
+﻿[
+  {
+    "id": 1,
+    "titulo": "Ruta Costa Verde",
+    "descripcion": "Acantilados suaves y pueblos marineros",
+    "precio": 480,
+    "imagen": "https://picsum.photos/seed/costaverde/640/360"
+  },
+  {
+    "id": 2,
+    "titulo": "Marrakech express",
+    "descripcion": "Medina, zocos y desierto cercano",
+    "precio": 620,
+    "imagen": "https://picsum.photos/seed/marrakech/640/360"
+  },
+  {
+    "id": 3,
+    "titulo": "Fiordos del norte",
+    "descripcion": "Barcos entre montanas y cascadas",
+    "precio": 980,
+    "imagen": "https://picsum.photos/seed/fiordos/640/360"
+  },
+  {
+    "id": 4,
+    "titulo": "Islas del sol",
+    "descripcion": "Playas tranquilas y aguas claras",
+    "precio": 730,
+    "imagen": "https://picsum.photos/seed/playasol/640/360"
+  }
+]

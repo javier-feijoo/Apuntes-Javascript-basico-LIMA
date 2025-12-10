@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>F1 API - Pilotos</title>
+  <link rel="stylesheet" href="./estilos.css">
+</head>
+<body>
+  <main>
+    <h1>Pilotos F1 (API actual)</h1>
+    <p class="descripcion">Ejemplo sencillo: al pulsar el boton pedimos los pilotos a la API y pintamos tarjetas.</p>
+    <div class="toolbar">
+      <button id="btn-cargar">Cargar pilotos</button>
+      <span id="estado"></span>
+    </div>
+    <section id="drivers" class="grid" aria-live="polite"></section>
+  </main>
+
+  <!-- Script JS -->
+  <script>
+    // Referencias a elementos HTML
+    const estado = document.getElementById("estado");
+    const lista = document.getElementById("drivers");
+    const boton = document.getElementById("btn-cargar");
+
+    // Escuchamos el click y lanzamos la peticion a f1api.dev
+    boton.addEventListener("click", cargarPilotos);
+
+    // Hace fetch a la API y delega el pintado
+    async function cargarPilotos() {
+      estado.textContent = "Cargando...";
+      boton.disabled = true;
+      try {
+        const res = await fetch("https://f1api.dev/api/current/drivers");
+        if (!res.ok) throw new Error("No se pudo cargar la API");
+
+        const data = await res.json();
+        // La API devuelve { drivers: [...] }
+        const pilotos = Array.isArray(data.drivers) ? data.drivers : [];
+
+        pintar(pilotos);
+        estado.textContent = `Listo: ${pilotos.length} pilotos`;
+      } catch (err) {
+        estado.textContent = "Error: " + err.message;
+      } finally {
+        boton.disabled = false;
+      }
+    }
+
+    // Función para pintar los pilotos en el HTML
+    // Genera el HTML de las tarjetas a partir de la lista
+    function pintar(pilotos) {
+      if (!pilotos.length) {
+        lista.innerHTML = "";
+        estado.textContent = "No se recibieron pilotos";
+        return;
+      }
+
+      lista.innerHTML = pilotos.map((p, idx) => {
+        // Campos que trae la API: driverId, name, surname, nationality, birthday, number, shortName, url, teamId
+        const nombre = p.name + " " +p.surname;
+        const numero = p.number;
+        const equipo = p.teamId;;
+        const pais = p.nationality;
+        const cumple = p.birthday;
+        // Si la API no trae foto, usamos una cara generada
+        const foto = `https://robohash.org/${nombre}.png`;
+        return `
+          <article class="card">
+            <div class="thumb"><img src="${foto}" alt="${nombre}"></div>
+            <div class="info">
+              <div class="chip">#${numero}</div>
+              <h3>${nombre}</h3>
+              <p class="muted">Equipo: ${equipo}</p>
+              <p class="muted">Pais: ${pais}</p>
+              <p class="muted">Nacimiento: ${cumple}</p>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+  </script>
+</body>
+</html>
